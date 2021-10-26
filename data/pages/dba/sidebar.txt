@@ -1,0 +1,9 @@
+~~NOCACHE~~
+
+  * [[:dba:g_anlage]]
+  * [[:dba:g_hardware]]
+  * [[:dba:g_klasse]]
+  * [[:dba:g_netzwerk]]
+  * [[:dba:g_raum]]
+  * [[:dba:g_software]]
+  * [[:dba:p_ticket]]

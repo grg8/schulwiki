@@ -1,0 +1,13 @@
+~~NOCACHE~~
+~~NOSIDEBAR~~
+====== Willkommen im Schulwiki ======
+|< 100% 240px >|
+^ Anschrift         | Bundesgymnasium BG XLII \\ Grünweg 2520 \\ 1000 Tharbad   |
+^ Schulkennzahl     | 123456                                                    |
+^ Homepage          | https://www.bmbwf.gv.at/                                  |
+^ Webuntis          | https://webuntis.com                                      |
+
+{{page>:einstellungen:@GROUP@:inc_info&noheader&nofooter&noeditbutton}}
+
+{{page>:user:@USER@&noheader&nofooter&noeditbutton}}
+

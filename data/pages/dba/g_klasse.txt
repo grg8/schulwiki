@@ -1,0 +1,10 @@
+====== klasse ======
+
+---- struct global ----
+schema: g_klasse
+cols: *
+width: 15%,15%,15%,15%,40%
+dynfilters: 1
+csv: 0
+sort: Klasse
+----

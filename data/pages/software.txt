@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:Software#einstellungen:admin:tpl_sidebar}}
+====== Software ======
+{{page>:Software:sidebar&noheader&nofooter&noeditbutton}}

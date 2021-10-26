@@ -1,0 +1,9 @@
+~~NOCACHE~~
+====== @PAGE@ ======
+
+---- struct global ----
+schema: @PAGE@
+cols: *
+dynfilters: 1
+csv: 0
+----

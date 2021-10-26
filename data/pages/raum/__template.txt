@@ -1,0 +1,30 @@
+~~NOCACHE~~
+====== @!!PAGE@ ======
+
+---- struct table ----
+schema: g_klasse
+cols: Klasse,SuS,KV,Notiz,Link
+width: 20%%,20%%,20%%,40%%,20%%
+filter: Raum = $ID$
+----
+
+---- struct table ----
+schema: g_anlage
+cols: Anlagename,Hardware,Software,Anlagenummer,Seriennummer,Notiz,Link
+width: 20%%,20%%,10%%,10%%,10%%,30%%,10%%
+csv: 0
+dynfilters: 1
+filter: Raum = $ID$
+----
+
+---- struct table ----
+schema     : p_ticket
+cols       : %%title%%,%%lastupdate%%,Erstellt,Fällig,Status,Notiz,Link
+head       : Ticket
+width      : 20%%,20%%,10%%,10%%,10%%,30%%,10%%
+csv        : 0
+filter     : Raum = $ID$
+filterand  : Status != Geschlossen
+sort       : ^%%lastupdate%%
+----
+

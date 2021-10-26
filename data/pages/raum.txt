@@ -1,0 +1,16 @@
+~~NOCACHE~~
+{{NEWSIDE>:Raum#einstellungen:admin:tpl_sidebar}}
+====== Raum ======
+{{page>:Raum:sidebar&noheader&nofooter&noeditbutton}}
+
+----
+
+---- struct table ----
+schema: g_raum
+cols: *
+width: 30%,70%,10%
+dynfilters: 1
+csv: 0
+sort: Raum
+rownumbers: 1
+----

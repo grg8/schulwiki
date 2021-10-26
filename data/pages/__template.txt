@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:@ID@#einstellungen:admin:tpl_sidebar}}
+====== @!!PAGE@ ======
+{{page>:@ID@:sidebar&noheader&nofooter&noeditbutton}}

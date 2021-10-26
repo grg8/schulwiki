@@ -1,0 +1,17 @@
+~~NOCACHE~~
+{{NEWSIDE>:@ID@#einstellungen:admin:tpl_sidebar}}
+====== @!!PAGE@ ======
+{{page>:@ID@:sidebar&noheader&nofooter&noeditbutton}}
+
+----
+
+---- struct table ----
+schema: g_anlage
+cols       : *
+width      : 20%%,10%%,10%%,10%%,10%%,10%%,30%%,10%%
+filter     : Anlagename ~ @ID@:*
+sort       : Anlagename
+csv        : 0
+dynfilters : 1
+----
+

@@ -1,0 +1,14 @@
+~~NOCACHE~~
+====== Juni ======
+{{yearbox>year=2022;months=06;ns=journal:2022;name=;size=11}}
+
+===== Tickets =====
+---- struct table ----
+schema: p_ticket
+cols       : %lastupdate%,%title%,Erstellt,Status,%lasteditor%,%lastsummary%
+dynfilters : 1
+csv        : 0
+filter     : Fällig ~ $PAGE$-*
+sort       : ^%lastupdate%
+----
+

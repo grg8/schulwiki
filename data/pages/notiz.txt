@@ -1,0 +1,75 @@
+~~NOCACHE~~
+{{NEWSIDE>:Notiz#einstellungen:admin:tpl_sidebar}}
+====== Notiz ======
+{{page>:Notiz:sidebar&noheader&nofooter&noeditbutton}}
+
+===== Anlage =====
+
+---- struct table ----
+schema: g_anlage
+cols: *
+csv: 0
+dynfilters: 1
+filter: Notiz !=
+----
+
+===== Hardware =====
+
+---- struct table ----
+schema: g_hardware
+cols: *
+csv: 0
+dynfilters: 1
+filter: Notiz !=
+----
+
+===== Klasse =====
+
+---- struct table ----
+schema: g_klasse
+cols: *
+csv: 0
+dynfilters: 1
+filter: Notiz !=
+----
+
+===== Netzwerk =====
+
+---- struct table ----
+schema: g_netzwerk
+cols: *
+csv: 0
+dynfilters: 1
+filter: Notiz !=
+----
+
+===== Raum =====
+
+---- struct table ----
+schema: g_raum
+cols: *
+csv: 0
+dynfilters: 1
+filter: Notiz !=
+----
+
+===== Software =====
+
+---- struct table ----
+schema: g_software
+cols: *
+csv: 0
+dynfilters: 1
+filter: Notiz !=
+----
+
+===== Ticket =====
+
+---- struct table ----
+schema: p_ticket
+cols: *
+csv: 0
+dynfilters: 1
+filter: Notiz !=
+----
+

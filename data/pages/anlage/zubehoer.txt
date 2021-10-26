@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:anlage:zubehoer#einstellungen:admin:tpl_sidebar}}
+====== Zubehör ======
+{{page>:anlage:zubehoer:sidebar&noheader&nofooter&noeditbutton}}

@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:anlage:monitor#einstellungen:admin:tpl_sidebar}}
+====== Monitor ======
+{{page>:anlage:monitor:sidebar&noheader&nofooter&noeditbutton}}

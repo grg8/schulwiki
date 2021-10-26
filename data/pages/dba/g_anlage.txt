@@ -1,0 +1,11 @@
+~~NOCACHE~~
+====== anlage ======
+
+---- struct global ----
+schema: g_anlage
+cols: *
+width: 20%,10%,10%,10%,10%,10%,50%,10%
+dynfilters: 1
+sort: Anlagename
+csv: 0
+----

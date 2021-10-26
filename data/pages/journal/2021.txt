@@ -1,0 +1,29 @@
+~~NOCACHE~~
+{{NEWSIDE>journal:2021#einstellungen:admin:tpl_sidebar}}
+====== 2021 ======
+
+<btn size="xs">[[journal:2021:2021-01|Jan]]</btn>
+<btn size="xs">[[journal:2021:2021-02|Feb]]</btn>
+<btn size="xs">[[journal:2021:2021-03|Mrz]]</btn>
+<btn size="xs">[[journal:2021:2021-04|Apr]]</btn>
+<btn size="xs">[[journal:2021:2021-05|Mai]]</btn>
+<btn size="xs">[[journal:2021:2021-06|Jun]]</btn>
+<btn size="xs">[[journal:2021:2021-07|Jul]]</btn>
+<btn size="xs">[[journal:2021:2021-08|Aug]]</btn>
+<btn size="xs">[[journal:2021:2021-09|Sep]]</btn>
+<btn size="xs">[[journal:2021:2021-10|Okt]]</btn>
+<btn size="xs">[[journal:2021:2021-11|Nov]]</btn>
+<btn size="xs">[[journal:2021:2021-12|Dez]]</btn>
+
+{{yearbox>year=2021;ns=journal:2021;name=;size=11}}
+
+===== Tickets =====
+---- struct table ----
+schema: p_ticket
+cols       : %lastupdate%,%title%,Erstellt,Status,Fällig,%lasteditor%,%lastsummary%
+dynfilters : 1
+csv        : 0
+filter     : Fällig ~ $PAGE$-*
+sort       : ^Fällig
+----
+

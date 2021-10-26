@@ -1,0 +1,10 @@
+~~NOCACHE~~
+{{NEWSIDE>:einstellungen:allgemein#einstellungen:admin:tpl_sidebar}}
+====== Allgemein ======
+{{page>:einstellungen:allgemein:sidebar&noheader&nofooter&noeditbutton}}
+
+===== sidebar =====
+**[[:sidebar|:sidebar]]**
+
+===== navbar =====
+**[[:navbar|:navbar]]**

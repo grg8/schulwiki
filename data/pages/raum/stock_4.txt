@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:Raum:stock_4#einstellungen:admin:tpl_sidebar}}
+====== 4. Stock ======
+{{page>:Raum:stock_4:sidebar&noheader&nofooter&noeditbutton}}

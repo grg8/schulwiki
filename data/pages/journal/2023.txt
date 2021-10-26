@@ -1,0 +1,19 @@
+~~NOCACHE~~
+{{NEWSIDE>journal:2023#einstellungen:admin:tpl_sidebar}}
+====== 2023 ======
+
+<btn size="xs">[[journal:2023:2023-01|Jan]]</btn>
+<btn size="xs">[[journal:2023:2023-02|Feb]]</btn>
+<btn size="xs">[[journal:2023:2023-03|Mrz]]</btn>
+<btn size="xs">[[journal:2023:2023-04|Apr]]</btn>
+<btn size="xs">[[journal:2023:2023-05|Mai]]</btn>
+<btn size="xs">[[journal:2023:2023-06|Jun]]</btn>
+<btn size="xs">[[journal:2023:2023-07|Jul]]</btn>
+<btn size="xs">[[journal:2023:2023-08|Aug]]</btn>
+<btn size="xs">[[journal:2023:2023-09|Sep]]</btn>
+<btn size="xs">[[journal:2023:2023-10|Okt]]</btn>
+<btn size="xs">[[journal:2023:2023-11|Nov]]</btn>
+<btn size="xs">[[journal:2023:2023-12|Dez]]</btn>
+
+{{yearbox>year=2023;ns=journal:2023;name=;size=11}}
+

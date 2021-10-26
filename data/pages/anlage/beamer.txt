@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:anlage:beamer#einstellungen:admin:tpl_sidebar}}
+====== Beamer ======
+{{page>:anlage:beamer:sidebar&noheader&nofooter&noeditbutton}}

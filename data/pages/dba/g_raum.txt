@@ -1,0 +1,10 @@
+~~NOCACHE~~
+====== raum ======
+
+---- struct global ----
+schema: g_raum
+cols: *
+dynfilters: 1
+csv: 0
+sort: Raum
+----

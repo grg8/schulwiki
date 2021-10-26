@@ -1,0 +1,19 @@
+  * {{icon>book-open-page-variant}}
+    * [[:doku]]
+    * [[:journal:2021|Journal]]
+
+  * {{icon>file-tree}}
+    * [[:anlage]]
+    * [[:hardware]]
+    * [[:Klasse]]
+    * [[:netzwerk]]
+    * [[:notiz]]
+    * [[:raum]]
+    * [[:software]]
+    * [[:ticket]]
+
+  * {{icon>ship-wheel}}
+    * [[:einstellungen]]
+    * [[:dba]]
+    * [[:user]]
+

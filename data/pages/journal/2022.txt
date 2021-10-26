@@ -1,0 +1,19 @@
+~~NOCACHE~~
+{{NEWSIDE>journal:2022#einstellungen:admin:tpl_sidebar}}
+====== 2022 ======
+
+<btn size="xs">[[journal:2022:2022-01|Jan]]</btn>
+<btn size="xs">[[journal:2022:2022-02|Feb]]</btn>
+<btn size="xs">[[journal:2022:2022-03|Mrz]]</btn>
+<btn size="xs">[[journal:2022:2022-04|Apr]]</btn>
+<btn size="xs">[[journal:2022:2022-05|Mai]]</btn>
+<btn size="xs">[[journal:2022:2022-06|Jun]]</btn>
+<btn size="xs">[[journal:2022:2022-07|Jul]]</btn>
+<btn size="xs">[[journal:2022:2022-08|Aug]]</btn>
+<btn size="xs">[[journal:2022:2022-09|Sep]]</btn>
+<btn size="xs">[[journal:2022:2022-10|Okt]]</btn>
+<btn size="xs">[[journal:2022:2022-11|Nov]]</btn>
+<btn size="xs">[[journal:2022:2022-12|Dez]]</btn>
+
+{{yearbox>year=2022;ns=journal:2022;name=;size=11}}
+

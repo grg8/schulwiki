@@ -1,0 +1,22 @@
+~~NOCACHE~~
+
+  * [[:doku]]
+  * [[:journal]]
+  * [[:notiz]]
+
+----
+
+  * [[:anlage]]
+  * [[:hardware]]
+  * [[:klasse]]
+  * [[:netzwerk]]
+  * [[:raum]]
+  * [[:software]]
+  * [[:ticket]]
+
+----
+
+  * [[:einstellungen]]
+  * [[:dba]]
+  * [[:user]]
+

@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:dba#einstellungen:admin:tpl_sidebar}}
+====== DBA ======
+{{page>:dba:sidebar&noheader&nofooter&noeditbutton}}

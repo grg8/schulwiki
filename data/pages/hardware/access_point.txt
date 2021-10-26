@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:Hardware:access_point#einstellungen:admin:tpl_sidebar}}
+====== Access Point ======
+{{page>:Hardware:access_point:sidebar&noheader&nofooter&noeditbutton}}

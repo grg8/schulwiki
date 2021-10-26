@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:Hardware:switch#einstellungen:admin:tpl_sidebar}}
+====== Switch ======
+{{page>:Hardware:switch:sidebar&noheader&nofooter&noeditbutton}}

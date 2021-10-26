@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:raum:stock_0#einstellungen:admin:tpl_sidebar}}
+====== Erdgeschoss ======
+{{page>:raum:stock_0:sidebar&noheader&nofooter&noeditbutton}}

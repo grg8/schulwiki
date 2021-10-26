@@ -1,0 +1,29 @@
+~~NOCACHE~~
+====== @PAGE@ ======
+
+---- struct table ----
+schema: g_anlage
+cols: Raum,Hardware,Software,Anlagenummer,Seriennummer,Notiz,Link
+width: 20%%,20%%,10%%,10%%,10%%,30%%,10%%
+filter: Anlagename = $ID$
+csv: 0
+----
+
+---- struct table ----
+schema: g_netzwerk
+cols: IP,Netzmaske,Gateway,MAC-Adresse,Hostname,Notiz,Link
+width: 20%%,20%%,10%%,10%%,10%%,30%%,10%%
+filter: Anlagename = $ID$
+csv: 0
+----
+
+---- struct table ----
+schema     : p_ticket
+cols       : %%title%%,%%lastupdate%%,Erstellt,Fällig,Status,Notiz,Link
+head       : Ticket
+width      : 20%%,20%%,10%%,10%%,10%%,30%%,10%%
+csv        : 0
+filter     : Anlagename = $ID$
+filterand  : Status != Geschlossen
+sort       : ^%%lastupdate%%
+----

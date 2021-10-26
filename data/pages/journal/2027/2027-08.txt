@@ -1,0 +1,14 @@
+~~NOCACHE~~
+====== August ======
+{{yearbox>year=2027;months=08;ns=journal:2027;name=;size=11}}
+
+===== Tickets =====
+---- struct table ----
+schema: p_ticket
+cols       : %lastupdate%,%title%,Erstellt,Status,%lasteditor%,%lastsummary%
+dynfilters : 1
+csv        : 0
+filter     : Fällig ~ $PAGE$-*
+sort       : ^%lastupdate%
+----
+

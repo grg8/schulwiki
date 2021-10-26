@@ -1,0 +1,3 @@
+~~NOCACHE~~
+{{page>:einstellungen:@GROUP@:inc_sidebar&nofooter&noheader&noeditbutton}}
+

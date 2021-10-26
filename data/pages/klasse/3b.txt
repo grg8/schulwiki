@@ -1,0 +1,21 @@
+~~NOCACHE~~
+====== 3b ======
+
+---- struct table ----
+schema: g_klasse
+cols: Raum,SuS,KV,Notiz,Link
+width: 20%,20%,20%,40%,20%
+csv: 0
+filter: Klasse = $ID$
+----
+
+---- struct table ----
+schema     : p_ticket
+cols       : %title%,%lastupdate%,Erstellt,Fällig,Status,Notiz,Link
+head       : Ticket
+width      : 20%,20%,10%,10%,10%,30%,10%
+csv        : 0
+filter     : Klasse = $ID$
+filterand  : Status != Geschlossen
+sort       : ^%lastupdate%
+----

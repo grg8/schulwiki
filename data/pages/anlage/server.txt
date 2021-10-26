@@ -1,0 +1,4 @@
+~~NOCACHE~~
+{{NEWSIDE>:anlage:server#einstellungen:admin:tpl_sidebar}}
+====== Server ======
+{{page>:anlage:server:sidebar&noheader&nofooter&noeditbutton}}
