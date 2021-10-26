@@ -1,1 +1,0 @@
-{{page>:einstellungen:@GROUP@:inc_navbar&noheader&nofooter&noeditbutton}}

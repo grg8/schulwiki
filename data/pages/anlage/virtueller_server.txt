@@ -1,4 +1,0 @@
-~~NOCACHE~~
-{{NEWSIDE>:anlage:virtueller_server#einstellungen:admin:tpl_sidebar}}
-====== Virtueller Server ======
-{{page>:anlage:virtueller_server:sidebar&noheader&nofooter&noeditbutton}}

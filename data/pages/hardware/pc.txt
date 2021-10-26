@@ -1,4 +1,0 @@
-~~NOCACHE~~
-{{NEWSIDE>:Hardware:pc#einstellungen:admin:tpl_sidebar}}
-====== PC ======
-{{page>:Hardware:pc:sidebar&noheader&nofooter&noeditbutton}}

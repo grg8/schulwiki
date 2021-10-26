@@ -1,4 +1,0 @@
-~~NOCACHE~~
-{{NEWSIDE>:Hardware:zubehoer#einstellungen:admin:tpl_sidebar}}
-====== Zubehör ======
-{{page>:Hardware:zubehoer:sidebar&noheader&nofooter&noeditbutton}}

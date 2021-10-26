@@ -1,9 +1,0 @@
-~~NOCACHE~~
----- struct list ----
-schema: p_ticket
-cols       : %title%
-filter     : %pageid% ~ $NS$:*
-filterand  : Status != Geschlossen
-filterand  : %pageid% !~ $NS$:*:sidebar
-sort       : ^%lastupdate%
-----

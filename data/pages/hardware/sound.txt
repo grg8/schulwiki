@@ -1,4 +1,0 @@
-~~NOCACHE~~
-{{NEWSIDE>:Hardware:sound#einstellungen:admin:tpl_sidebar}}
-====== Sound ======
-{{page>:Hardware:sound:sidebar&noheader&nofooter&noeditbutton}}

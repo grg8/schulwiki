@@ -1,4 +1,0 @@
-~~NOCACHE~~
-{{NEWSIDE>:raum:stock_-1#einstellungen:admin:tpl_sidebar}}
-====== Keller ======
-{{page>:raum:stock_-1:sidebar&noheader&nofooter&noeditbutton}}

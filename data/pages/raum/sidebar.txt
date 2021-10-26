@@ -1,7 +1,0 @@
-~~NOCACHE~~
-
-  * [[:Raum:stock_0]]
-  * [[:Raum:stock_1]]
-  * [[:Raum:stock_2]]
-  * [[:Raum:stock_3]]
-

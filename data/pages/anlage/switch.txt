@@ -1,4 +1,0 @@
-~~NOCACHE~~
-{{NEWSIDE>:anlage:switch#einstellungen:admin:tpl_sidebar}}
-====== Switch ======
-{{page>:anlage:switch:sidebar&noheader&nofooter&noeditbutton}}

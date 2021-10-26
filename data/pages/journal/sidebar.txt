@@ -1,6 +1,0 @@
-~~NOCACHE~~
-
-  * [[:journal:2020]]
-  * [[:journal:2021]]
-  * [[:journal:2022]]
-

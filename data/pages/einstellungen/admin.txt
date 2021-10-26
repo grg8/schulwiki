@@ -1,6 +1,0 @@
-~~NOCACHE~~
-{{NEWSIDE>:einstellungen:admin#einstellungen:admin:tpl_sidebar}}
-====== Admin ======
-{{page>:einstellungen:admin:sidebar&noheader&nofooter&noeditbutton}}
-
-

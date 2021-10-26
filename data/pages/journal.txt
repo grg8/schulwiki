@@ -1,8 +1,0 @@
-~~NOCACHE~~
-====== Journal ======
-{{page>:journal:sidebar&noheader&nofooter&noeditbutton}}
-
-----
-
-{{page>:journal:@YEAR@&noheader&nofooter&noeditbutton}}
-{{NEWSIDE>:journal#einstellungen:admin:tpl_sidebar}}

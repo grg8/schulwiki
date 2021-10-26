@@ -1,4 +1,0 @@
-~~NOCACHE~~
-{{NEWSIDE>:Hardware:drucker#einstellungen:admin:tpl_sidebar}}
-====== Drucker ======
-{{page>:Hardware:drucker:sidebar&noheader&nofooter&noeditbutton}}

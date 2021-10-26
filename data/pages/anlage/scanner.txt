@@ -1,4 +1,0 @@
-~~NOCACHE~~
-{{NEWSIDE>:anlage:scanner#einstellungen:admin:tpl_sidebar}}
-====== Scanner ======
-{{page>:anlage:scanner:sidebar&noheader&nofooter&noeditbutton}}

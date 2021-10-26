@@ -1,4 +1,0 @@
-~~NOCACHE~~
-
-  * [[:einstellungen:user:inc_info]]
-  * [[:einstellungen:user:inc_navbar]]

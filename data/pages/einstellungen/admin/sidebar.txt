@@ -1,7 +1,0 @@
-~~NOCACHE~~
-
-  * [[:einstellungen:admin:inc_info]]
-  * [[:einstellungen:admin:inc_navbar]]
-  * [[:einstellungen:admin:inc_sidebar]]
-  * [[:einstellungen:admin:tpl_sidebar|tpl_sidebar]]
-  * [[:einstellungen:admin:tpl_user|tpl_user]]
