@@ -1,0 +1,2 @@
+# schulwiki
+Customized dokuwiki
