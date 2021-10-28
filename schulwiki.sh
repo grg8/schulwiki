@@ -1,19 +1,13 @@
 #!/bin/bash
 #---
 # file      : schulwiki.sh
-# date      : 27.10.2021
-# version   : 0.0.7
-# info      : schulwiki
-# ref       :
-# - https://unix.stackexchange.com/questions/79678/force-rsync-to-overwrite-files-at-destination-even-if-theyre-newer
-# - id -u
-# - Orange  (ro,lu): #CF4525
-# - Grün    (lo,ru): #00BE35
+# date      : 28.10.2021
+# version   : 0.0.9
+# info      : customized dokuwiki wrapper script
 #---
 
 ##
 schulwiki() {
-
 
     ### configuration (defaults)
     conf() {
@@ -28,12 +22,12 @@ schulwiki() {
             [index]='NAME'"${ntt}"'Like '"'"'reload'"'"' but also refresh wiki search index.'
             [pkg]="${ntt}"'Install nginx, php and php stuff for Debian distro.'
             [repo]='NAME'"${ntt}"'Create the repository for a wiki to sync from.'
-            [server]='NAME PORT'"${ntt}"'Print server config to STDOUT.'
+            [server]='NAME PORT'"${ntt}"'Create http server configuration if not existing.'
             [sync]='NAME'"${ntt}"'Sync from repo to running wiki.'
         )                                                                       &&
 
         # default optarg
-        conf_opt__=( "help" )
+        conf_opt__=( "help" )                                                   &&
 
         # default config
         conf_def_=(
@@ -92,7 +86,7 @@ schulwiki() {
             php-tidy php-xml php-xmlrpc
         )                                                                       &&
 
-        :
+        : || { err "error at config." ; return 1 ; }
 
     }                                                                           &&
 
@@ -143,35 +137,14 @@ schulwiki() {
             [group]="${conf_def_[group]}"
         )                                                                       &&
 
-        # @todo: write out to phprc at /opt/schulwiki
-        init_php_=(
-            [service]="$(
-                    systemctl list-unit-files   |
-                    grep fpm                    |
-                    cut -d' ' -f1               || :
-                )"
-            [socket]="$(
-                    find /etc/php -name www.conf -exec \
-                    sed -n "s/^listen${s}*=${s}*\(${ns}\+\)/\1/p" '{}' \;
-                )"
-            [ini]="/etc/php/7.3/fpm/php.ini"
-            #~ upload_max_filesize = 15M
-            #~ post_max_size = 15M
-            #~ sed -e "s/^upload_max_filesize = .*/upload_max_filesize = 25M/"  -e "s/^post_max_size = .*/post_max_size = 25M/" /etc/php/7.3/fpm/php.ini
-        )                                                                   &&
-
-        : || {
-            echo usage
-            return 1
-        }
+        : || { err "error at init" ; return 1 ; }
 
     } &&
 
     ### options
 
     opt_help() {
-        printf "%s\n\n" "${conf_usage}"                                         &&
-        printf "%s\n\n" "COMMAND"                                               &&
+        printf "%s\n\n" "${conf_usage}" "COMMAND"                               &&
         printf "%s\n" "${!conf_opt_[@]}"                                        |
         sort                                                                    |
         while IFS= read -r line ; do
@@ -180,48 +153,52 @@ schulwiki() {
     }
 
     opt_repo() {
-
+        local dir=                                                              &&
+        local repo=                                                             &&
         mkdir -p "${init_repo_[@]}"                                             &&
 
         # clone dokuwiki
-        if [[ -z "$( ls -A "${init_repo_[dokuwiki]}" )" ]] ; then
-            git clone --branch "${init_dokuwiki_branch}"                        \
-                "${conf_def_[dokuwiki]}" "${init_repo_[dokuwiki]}"
+        dir="${init_repo_[dokuwiki]}"                                           &&
+        repo="${conf_def_[dokuwiki]}"                                           &&
+        if [[ -z "$( ls -A "${dir}" )" ]] ; then
+            git clone --branch "${init_dokuwiki_branch}" "${repo}" "${dir}"
         fi                                                                      &&
 
         # clone skel
-        if [[ -z "$( ls -A "${init_repo_[skel]}" )" ]] ; then
-            git clone "${conf_def_[skel]}" "${init_repo_[skel]}"
+        dir="${init_repo_[skel]}"                                               &&
+        repo="${conf_def_[skel]}"                                               &&
+        if [[ -z "$( ls -A "${dir}" )" ]] ; then
+            git clone "${repo}" "${dir}"
         fi                                                                      &&
 
         # clone plugins
         for i in "${!conf_git_plugins_[@]}" ; do
-            [[ -e "${init_repo_[plugins]}/${i}" ]]                              ||
-                git clone "${conf_git_plugins_[${i}]}" "${init_repo_[plugins]}/${i}"    ||
+            dir="${init_repo_[plugins]}/${i}"                                   &&
+            repo="${conf_git_plugins_[${i}]}"                                   &&
+            [[ -e "${dir}" ]]                                                   ||
+                git clone "${repo}" "${dir}"                                    ||
                     return 1
         done                                                                    &&
 
         # clone templates
         for i in "${!conf_git_tpl_[@]}" ; do
-            [[ -e "${init_repo_[tpl]}/${i}" ]]                                  ||
-                git clone "${conf_git_tpl_[${i}]}" "${init_repo_[tpl]}/${i}"    ||
+            dir="${init_repo_[tpl]}/${i}"                                       &&
+            repo="${conf_git_tpl_[${i}]}"                                       &&
+            [[ -e "${dir}" ]]                                                   ||
+                git clone "${repo}" "${dir}"                                    ||
                     return 1
         done                                                                    &&
 
-        :
+        : || { err "error at repository." ; return 1 ; }
 
     }
 
     opt_sync() {
-
-        #~ [[ ${#user_arg__[@]} -le 2 ]]                                           &&
-        #~ if [[ "${user_arg__[0]}" == force ]] ; then
-            #~ init_sizeonly='--size-only'
-        #~ fi                                                                      &&
+        #~ rsync -avz ${init_sizeonly}
 
         mkdir -p "${init_dokuwiki_[@]}" "${init_backup_sync}"                   &&
 
-        rsync -avz ${init_sizeonly}                                             \
+        rsync -avz                                                              \
             --backup-dir "${init_backup_sync}/${init_date}"                     \
             --exclude composer.*                                                \
             --exclude .editorconfig                                             \
@@ -232,44 +209,45 @@ schulwiki() {
             "${init_dokuwiki_[dokuwiki]}"                                       \
                                                                                 &&
 
-        rsync -avz ${init_sizeonly}                                             \
+        rsync -avz                                                              \
             --backup-dir "${init_backup_sync}/${init_date}"                     \
             --exclude *.git*                                                    \
             "${init_repo_[plugins]}/"                                           \
             "${init_dokuwiki_[plugins]}"                                        \
                                                                                 &&
 
-        rsync -avz ${init_sizeonly}                                             \
+        rsync -avz                                                              \
             --backup-dir "${init_backup_sync}/${init_date}"                     \
             --exclude *.git*                                                    \
             "${init_repo_[tpl]}/"                                               \
             "${init_dokuwiki_[tpl]}"                                            \
                                                                                 &&
 
-        rsync -avz ${init_sizeonly}                                             \
+        rsync -avz                                                              \
             --backup-dir "${init_backup_sync}/${init_date}"                     \
             --exclude *.git*                                                    \
             "${init_repo_[skel]}/"                                              \
             "${init_dokuwiki_[skel]}"                                           \
                                                                                 &&
 
-        opt_reload                                                              &&
-
-        :
+        : || { err "error at sync." ; return 1 ; }
 
     }
 
     opt_reload() {
+        local og=                                                               &&
+        og="${init_server_[owner]}:${init_server_[group]}"                      &&
         touch "${init_dokuwiki}/conf/local.php"                                 &&
-        chown -R "${init_server_[owner]}:${init_server_[group]}" "${init_dokuwiki}" &&
+        chown -R "${og}" "${init_dokuwiki}"                                     &&
         nginx -t                                                                &&
         systemctl restart "${init_php_[service]}" nginx.service                 &&
-        :
+        : || { err "Error at reload." ; return 1 ; }
     }
 
     opt_index() {
-        sudo -u "${init_server_[owner]}" "${init_dokuwiki}/bin/indexer.php" -c &&
-        opt_reload
+        sudo -u "${init_server_[owner]}" "${init_dokuwiki}/bin/indexer.php" -c  &&
+        opt_reload                                                              &&
+        : || { err "error at index." ; return 1 ; }
     }
 
     opt_info() {
@@ -309,9 +287,9 @@ schulwiki() {
     }
 
     opt_server() {
-        [[ -e "${init_server_[conf]}" ]] ||
-            printf "%s\n" "${init_nginx_server__[@]}" > "${init_server_[conf]}"
-        return
+        [[ -e "${init_server_[conf]}" ]]                                        ||
+            printf "%s\n" "${init_nginx_server__[@]}" > "${init_server_[conf]}" ||
+        { err "error at server config." ; return 1 ; }
     }
 
     opt_pkg() {
@@ -324,13 +302,14 @@ schulwiki() {
     opt_list() {
         for i in $( ls -A "${init_repo}" ) ; do
             printf "%s\n" "${i}"
-        done
+        done                                                                    &&
+        : || { err "error at list." ; return 1 ; }
     }
 
     err() {
         set -- "${@:-unknown error}"
         {
-            printf "${0}: error: %s\n" "${@}"
+            printf "${0}: aborted: %s\n" "${@}"
             printf "%s\n" "Please try \`schulwiki help' for usage."
         } 1>&2
         return 1
@@ -343,18 +322,13 @@ schulwiki() {
         # scalar
         declare -x  line=                                                       &&
         declare -x  port=                                                       &&
-        declare -x  arg=                                                        &&
         declare -x  i=                                                          &&
-        declare -x  date=                                                       &&
         declare -x  nt=                                                         &&
         declare -x  ntt=                                                        &&
         declare -x  s=                                                          &&
         declare -x  ns=                                                         &&
         declare -x  vo=                                                         &&
         declare -x  va=                                                         &&
-
-        # array
-        declare -a  out__=()                                                    &&
 
         #### config
 
@@ -370,19 +344,16 @@ schulwiki() {
         declare -A  conf_def_=()                                                &&
         declare -A  conf_git_plugins_=()                                        &&
         declare -A  conf_git_tpl_=()                                            &&
-        declare -A  conf_rel_=()                                                &&
 
         #### init
 
         # scalar
         declare -x  init_date=                                                  &&
-        declare -x  init_port=                                                  &&
         declare -x  init_backup=                                                &&
         declare -x  init_backup_sync=                                           &&
         declare -x  init_dokuwiki=                                              &&
         declare -x  init_dokuwiki_branch=                                       &&
         declare -x  init_repo=                                                  &&
-        declare -x  init_sizeonly=                                              &&
 
         # array
         declare -a  init_nginx_server__=()                                      &&
@@ -401,13 +372,9 @@ schulwiki() {
         # scalar
         declare -x  user_func=                                                  &&
         declare -x  user_name=                                                  &&
-        declare -x  user_port=                                                  &&
         declare -x  user_opt=                                                   &&
 
-        # array
-        declare -a  user_arg__=()                                               &&
-
-        :
+        : || { err "error at cariable declaration." ; return 1 ; }
 
     }                                                                           &&
 
@@ -456,6 +423,28 @@ schulwiki() {
     ### init
     init                                                                        &&
 
+    ### conditional init
+
+    if [[ "${user_opt}" =~ server|reload|index|info ]] ; then
+        # @todo: write out to phprc at /opt/schulwiki; do the maxsize in php ini
+        init_php_=(
+            [service]="$(
+                    systemctl list-unit-files   |
+                    grep fpm                    |
+                    cut -d' ' -f1               || :
+                )"
+            [socket]="$(
+                    find /etc/php -name www.conf -exec \
+                    sed -n "s/^listen${s}*=${s}*\(${ns}\+\)/\1/p" '{}' \;
+                )"
+            [ini]="$( find /etc/php -name php.ini | grep fpm  )"
+            #~ upload_max_filesize = 15M
+            #~ post_max_size = 15M
+            #~ sed -e "s/^upload_max_filesize = .*/upload_max_filesize = 25M/"  -e "s/^post_max_size = .*/post_max_size = 25M/" /etc/php/7.3/fpm/php.ini
+        )                                                                       &&
+        : || { err "error at php init." ; return 1 ; }
+    fi                                                                          &&
+
     if [[ "${user_opt}" == server ]] ; then
         port="${1:-${init_server_[port]}}"                                      &&
         { [[ ${#@} -eq 0 ]] || shift ; }                                        &&
@@ -473,7 +462,6 @@ schulwiki() {
             ' access_log /var/log/nginx/dokuwiki.access.log;'
             ' error_log /var/log/nginx/dokuwiki.error.log;'
             ''
-            #~ ' index index.html index.php doku.php install.php;'
             ' index index.php doku.php;'
             ''
             'location / {'
@@ -513,8 +501,8 @@ schulwiki() {
             ' }'
             '}'
         )                                                                       &&
-        : || { err "something went wrong." ; return 1 ; }
-    fi
+        : || { err "error at init server." ; return 1 ; }
+    fi                                                                          &&
 
     [[ ${#@} -eq 0 ]]                                                           &&
     : || { err "to many arguments: ${1}" ; return 1 ; }
@@ -522,7 +510,7 @@ schulwiki() {
     # run
     ${user_func}                                                                &&
 
-    : || err "mad usage"
+    : || return 1
 
 } &&
 
