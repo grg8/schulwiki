@@ -1,8 +1,8 @@
 #!/bin/bash
 #---
 # file      : schulwiki.sh
-# date      : 27.10.2021
-# version   : 0.0.7
+# date      : 28.10.2021
+# version   : 0.0.8
 # info      : schulwiki
 # ref       :
 # - https://unix.stackexchange.com/questions/79678/force-rsync-to-overwrite-files-at-destination-even-if-theyre-newer
@@ -28,7 +28,7 @@ schulwiki() {
             [index]='NAME'"${ntt}"'Like '"'"'reload'"'"' but also refresh wiki search index.'
             [pkg]="${ntt}"'Install nginx, php and php stuff for Debian distro.'
             [repo]='NAME'"${ntt}"'Create the repository for a wiki to sync from.'
-            [server]='NAME PORT'"${ntt}"'Print server config to STDOUT.'
+            [server]='NAME PORT'"${ntt}"'Create http server configuration if not existing.'
             [sync]='NAME'"${ntt}"'Sync from repo to running wiki.'
         )                                                                       &&
 
