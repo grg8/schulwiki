@@ -13,6 +13,12 @@ Tested on current LMDE4.
     sudo schulwiki index    foo
     sudo schulwiki info     foo
 
+## credentials
+
+User    | Password
+------- | -------------
+`admin` | `admin`
+
 ## help
 
     $ schulwiki help
