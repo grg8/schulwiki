@@ -1,6 +1,8 @@
 # schulwiki
 
-Under construction!
+**Under construction!**
+
+Customized dokuwiki server including (adapted) plugins, bootstrap3 template and a skeleton for keeping inventory and documentation inside a school environment.
 
 Tested on current LMDE4.
 
@@ -12,6 +14,12 @@ Tested on current LMDE4.
     sudo schulwiki sync     foo
     sudo schulwiki index    foo
     sudo schulwiki info     foo
+
+## credentials
+
+User    | Password
+------- | -------------
+`admin` | `admin`
 
 ## help
 
@@ -44,7 +52,7 @@ Tested on current LMDE4.
             Create the repository for a wiki to sync from.
 
         server NAME PORT
-            Print server config to STDOUT.
+            Create http server configuration if not existing.
 
         sync NAME
             Sync from repo to running wiki.
