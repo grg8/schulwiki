@@ -1,6 +1,8 @@
 # schulwiki
 
-Under construction!
+**Under construction!**
+
+Customized dokuwiki server including (adapted) plugins, bootstrap3 template and a skeleton for keeping inventory and documentation inside a school environment.
 
 Tested on current LMDE4.
 
