@@ -15,6 +15,7 @@ schulwiki() {
         conf_usage="USAGE${n}${nt}schulwiki COMMAND${nt}schulwiki COMMAND NAME${nt}schulwiki COMMAND NAME ARG"
 
         conf_opt_=(
+            [db]='NAME'"${ntt}"'Show information about a struct db.'
             [help]="${ntt}"'Show this help.'
             [list]="${ntt}"'List all existing wikis.'
             [info]='NAME'"${ntt}"'Show information about a wiki.'
@@ -80,7 +81,7 @@ schulwiki() {
 
         # debian packages
         conf_apt__=(
-            git nginx php
+            git nginx php sqlite3
             php-apcu php-bcmath php-common php-curl php-fpm php-gd
             php-gettext php-gmp php-imap php-intl php-json php-mbstring
             php-memcache php-mysql php-pear php-pspell php-recode php-sqlite3
@@ -116,6 +117,8 @@ schulwiki() {
             [tpl]="${init_dokuwiki}/lib/tpl"
         )                                                                       &&
 
+        init_db="${init_dokuwiki}/data/meta/struct.sqlite3"                     &&
+
         init_backup="${init_repo}/_backup"                                      &&
         init_backup_sync="${init_backup}/sync"                                  &&
         init_backup_=(
@@ -143,6 +146,67 @@ schulwiki() {
     } &&
 
     ### options
+
+    opt_db() {
+        declare -a  id__=()
+        declare     select=
+        declare     header=
+        #~ declare -a  sid__=()
+        declare -a  tid__=()
+        if [[ ${#@} -eq 0 ]] ; then
+            db__=()
+            for i in $( sqlite3 "${init_db}" ".tables" ) ; do
+                [[ "${i}" =~ data_(.*) ]] &&
+                    db__+=( "${BASH_REMATCH[1]}" )
+            done
+            printf "%s\n" "${db__[@]}"
+        else
+            id__=(
+                $(
+                    sqlite3 "${init_db}" "
+                        select id from schemas
+                        where tbl like '${1}'
+                    "
+                )
+            ) # 7 8 9
+
+            #~ sid__=( $(
+                #~ sqlite3 "${init_db}" "
+                    #~ select colref from schema_cols
+                    #~ where sid like '${id}'
+                #~ "
+                #~ )
+            #~ )
+
+            tid__=( $(
+                sqlite3 "${init_db}" "
+                    select tid from schema_cols
+                    where sid like '${id__[0]}'
+                    order by sort asc;
+                "
+                )
+            )
+
+            for (( i=0,j=1;i<${#tid__[@]};i++,j++ )) ; do
+                select="${select},col${j}"
+                header="${header},$(
+                    sqlite3 "${init_db}" "
+                        select label from types
+                        where id like '${tid__[${i}]}'
+                    "
+                )"
+            done
+            select="${select#,}"
+            header="${header#,}"
+
+            printf "%s\n" "${header}"
+            sqlite3 -csv "${init_db}" "
+                select ${select} from data_${1}
+            "
+                #~ where id like '${id}'
+
+        fi
+    }
 
     opt_help() {
         printf "%s\n\n" "${conf_usage}" "COMMAND"                               &&
@@ -521,11 +585,11 @@ schulwiki() {
         )"
     fi                                                                          &&
 
-    [[ ${#@} -eq 0 ]]                                                           &&
-    : || { err "to many arguments: ${1}" ; return 1 ; }
+    #~ [[ ${#@} -eq 0 ]]                                                           &&
+    #~ : || { err "to many arguments: ${1}" ; return 1 ; }
 
     # run
-    ${user_func}                                                                &&
+    ${user_func} "${@}"                                                         &&
 
     : || return 1
 
