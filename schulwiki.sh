@@ -1,8 +1,8 @@
 #!/bin/bash
 #---
 # file      : schulwiki.sh
-# date      : 28.10.2021
-# version   : 0.0.9
+# date      : 2021-11-03
+# version   : 0.0.10
 # info      : customized dokuwiki wrapper script
 #---
 
@@ -12,7 +12,7 @@ schulwiki() {
     ### configuration (defaults)
     conf() {
 
-        conf_usage="USAGE${n}${nt}schulwiki COMMAND${nt}schulwiki COMMAND ARG"
+        conf_usage="USAGE${n}${nt}schulwiki COMMAND${nt}schulwiki COMMAND NAME${nt}schulwiki COMMAND NAME ARG"
 
         conf_opt_=(
             [help]="${ntt}"'Show this help.'
@@ -79,7 +79,7 @@ schulwiki() {
 
         # debian packages
         conf_apt__=(
-            nginx php
+            git nginx php
             php-apcu php-bcmath php-common php-curl php-fpm php-gd
             php-gettext php-gmp php-imap php-intl php-json php-mbstring
             php-memcache php-mysql php-pear php-pspell php-recode php-sqlite3
@@ -325,6 +325,7 @@ schulwiki() {
         declare -x  i=                                                          &&
         declare -x  nt=                                                         &&
         declare -x  ntt=                                                        &&
+        declare -x  d=                                                          &&
         declare -x  s=                                                          &&
         declare -x  ns=                                                         &&
         declare -x  vo=                                                         &&
@@ -379,6 +380,7 @@ schulwiki() {
     }                                                                           &&
 
     ### aux regex
+    d='[[:digit:]]'                                                             &&
     s='[[:space:]]'                                                             &&
     ns='[^[:space:]]'                                                           &&
     vo='^[[:alpha:]_]([[:alnum:]_-]*[[:alnum:]])?$'                             &&
@@ -502,6 +504,12 @@ schulwiki() {
             '}'
         )                                                                       &&
         : || { err "error at init server." ; return 1 ; }
+    fi                                                                          &&
+
+    if [[ "${user_opt}" == info ]] ; then
+        init_server_[port]="$(
+            sed -n "s/^${s}*listen${s}\+\(${d}\+\)[\;]/\1/p" "${init_server_[conf]}"
+        )"
     fi                                                                          &&
 
     [[ ${#@} -eq 0 ]]                                                           &&
