@@ -26,9 +26,13 @@ User    | Password
     $ schulwiki help
     USAGE
         schulwiki COMMAND
-        schulwiki COMMAND ARG
+        schulwiki COMMAND NAME
+        schulwiki COMMAND NAME ARG
 
     COMMAND
+
+        db NAME [TABLE]
+            Show information about a struct db.
 
         help
             Show this help.
@@ -41,6 +45,9 @@ User    | Password
 
         list
             List all existing wikis.
+
+        php
+            Print php.ini for max upload size to STDOUT.
 
         pkg
             Install nginx, php and php stuff for Debian distro.
@@ -56,5 +63,3 @@ User    | Password
 
         sync NAME
             Sync from repo to running wiki.
-
-

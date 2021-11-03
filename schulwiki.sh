@@ -15,7 +15,7 @@ schulwiki() {
         conf_usage="USAGE${n}${nt}schulwiki COMMAND${nt}schulwiki COMMAND NAME${nt}schulwiki COMMAND NAME ARG"
 
         conf_opt_=(
-            [db]='NAME'"${ntt}"'Show information about a struct db.'
+            [db]='NAME [TABLE]'"${ntt}"'Show information about a struct db.'
             [help]="${ntt}"'Show this help.'
             [list]="${ntt}"'List all existing wikis.'
             [info]='NAME'"${ntt}"'Show information about a wiki.'
