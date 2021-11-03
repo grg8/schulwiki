@@ -12,6 +12,7 @@ Tested on current LMDE4.
     sudo schulwiki repo     foo
     sudo schulwiki server   foo   12345
     sudo schulwiki sync     foo
+    sudo schulwiki reload   foo
     sudo schulwiki index    foo
     sudo schulwiki info     foo
 
