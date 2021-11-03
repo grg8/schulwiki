@@ -20,6 +20,7 @@ schulwiki() {
             [info]='NAME'"${ntt}"'Show information about a wiki.'
             [reload]='NAME'"${ntt}"'Reload wiki and restart services.'
             [index]='NAME'"${ntt}"'Like '"'"'reload'"'"' but also refresh wiki search index.'
+            [php]="${ntt}"'Print php.ini for max upload size to STDOUT.'
             [pkg]="${ntt}"'Install nginx, php and php stuff for Debian distro.'
             [repo]='NAME'"${ntt}"'Create the repository for a wiki to sync from.'
             [server]='NAME PORT'"${ntt}"'Create http server configuration if not existing.'
@@ -115,7 +116,7 @@ schulwiki() {
             [tpl]="${init_dokuwiki}/lib/tpl"
         )                                                                       &&
 
-        init_backup="${init_repo}/backup"                                       &&
+        init_backup="${init_repo}/_backup"                                      &&
         init_backup_sync="${init_backup}/sync"                                  &&
         init_backup_=(
             [attic]="${init_dokuwiki}/data/attic"
@@ -292,6 +293,16 @@ schulwiki() {
         { err "error at server config." ; return 1 ; }
     }
 
+    opt_php() {
+        #~ upload_max_filesize = 15M
+        #~ post_max_size = 15M
+        sed                                                                     \
+            -e "s/^upload_max_filesize = .*/upload_max_filesize = ${init_php_[maxsize]}/"         \
+            -e "s/^post_max_size = .*/post_max_size = ${init_php_[maxsize]}/"                     \
+            "${init_php_[ini]}"
+
+    }
+
     opt_pkg() {
         apt update                                                              &&
         apt upgrade                                                             &&
@@ -408,7 +419,7 @@ schulwiki() {
     : || { err "no such option: ${1}" ; return 1 ; }
 
     # check if usage is valid
-    if [[ "${user_opt}" =~ help|list|pkg ]] ; then
+    if [[ "${user_opt}" =~ help|list|pkg|php ]] ; then
         :
     else
         [[ "${1}" =~ ${vo} ]]                                                   &&
@@ -427,7 +438,7 @@ schulwiki() {
 
     ### conditional init
 
-    if [[ "${user_opt}" =~ server|reload|index|info ]] ; then
+    if [[ "${user_opt}" =~ server|reload|index|info|php ]] ; then
         # @todo: write out to phprc at /opt/schulwiki; do the maxsize in php ini
         init_php_=(
             [service]="$(
@@ -440,9 +451,7 @@ schulwiki() {
                     sed -n "s/^listen${s}*=${s}*\(${ns}\+\)/\1/p" '{}' \;
                 )"
             [ini]="$( find /etc/php -name php.ini | grep fpm  )"
-            #~ upload_max_filesize = 15M
-            #~ post_max_size = 15M
-            #~ sed -e "s/^upload_max_filesize = .*/upload_max_filesize = 25M/"  -e "s/^post_max_size = .*/post_max_size = 25M/" /etc/php/7.3/fpm/php.ini
+            [maxsize]="${conf_def_[maxsize]}"
         )                                                                       &&
         : || { err "error at php init." ; return 1 ; }
     fi                                                                          &&
