@@ -1,8 +1,8 @@
 #!/bin/bash
 #---
 # file      : schulwiki.sh
-# date      : 2021-11-03
-# version   : 0.0.10
+# date      : 2021-11-18
+# version   : 0.0.11
 # info      : customized dokuwiki wrapper script
 #---
 
