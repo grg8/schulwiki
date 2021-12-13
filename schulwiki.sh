@@ -1,8 +1,8 @@
 #!/bin/bash
 #---
 # file      : schulwiki.sh
-# date      : 2021-11-03
-# version   : 0.0.10
+# date      : 2021-12-13
+# version   : 0.0.13
 # info      : customized dokuwiki wrapper script
 #---
 
@@ -12,20 +12,19 @@ schulwiki() {
     ### configuration (defaults)
     conf() {
 
-        conf_usage="USAGE${n}${nt}schulwiki COMMAND${nt}schulwiki COMMAND NAME${nt}schulwiki COMMAND NAME ARG"
+        conf_usage="${nt}schulwiki COMMAND [ARG]"
 
         conf_opt_=(
-            [db]='NAME [TABLE]'"${ntt}"'Show information about a struct db.'
+            [db]='[TABLE]'"${ntt}"'Show information about a struct db.'
             [help]="${ntt}"'Show this help.'
-            [list]="${ntt}"'List all existing wikis.'
-            [info]='NAME'"${ntt}"'Show information about a wiki.'
-            [reload]='NAME'"${ntt}"'Reload wiki and restart services.'
-            [index]='NAME'"${ntt}"'Like '"'"'reload'"'"' but also refresh wiki search index.'
-            [php]="${ntt}"'Print php.ini for max upload size to STDOUT.'
-            [pkg]="${ntt}"'Install nginx, php and php stuff for Debian distro.'
-            [repo]='NAME'"${ntt}"'Create the repository for a wiki to sync from.'
-            [server]='NAME PORT'"${ntt}"'Create http server configuration if not existing.'
-            [sync]='NAME'"${ntt}"'Sync from repo to running wiki.'
+            [info]=''"${ntt}"'Show information about a wiki.'
+            [reload]=''"${ntt}"'Reload wiki and restart services.'
+            [index]=''"${ntt}"'Like '"'"'reload'"'"' but also refresh wiki search index.'
+            [php]="${ntt}"'Write php.ini for max upload size.'
+            [pkg]="${ntt}"'Install nginx, php and stuff for Debian distro.'
+            [repo]=''"${ntt}"'Create the repository for a wiki to sync from.'
+            [server]='PORT'"${ntt}"'Create http server configuration if not existing.'
+            [sync]=''"${ntt}"'Sync from repo to running wiki.'
         )                                                                       &&
 
         # default optarg
@@ -81,7 +80,7 @@ schulwiki() {
 
         # debian packages
         conf_apt__=(
-            git nginx php sqlite3
+            csvtool git nginx php sqlite3 vim
             php-apcu php-bcmath php-common php-curl php-fpm php-gd
             php-gettext php-gmp php-imap php-intl php-json php-mbstring
             php-memcache php-mysql php-pear php-pspell php-recode php-sqlite3
@@ -101,7 +100,7 @@ schulwiki() {
         init_date="$( date +"${conf_def_[date]}" )"                             &&
         init_dokuwiki_branch="${conf_def_[dokuwiki_branch]}"                    &&
 
-        init_repo="${conf_def_[repo]}/${conf_def_[name]}/${user_name}"          &&
+        init_repo="${conf_def_[repo]}/${conf_def_[name]}"                       &&
         init_repo_=(
             [dokuwiki]="${init_repo}/dokuwiki"
             [plugins]="${init_repo}/plugins"
@@ -109,7 +108,7 @@ schulwiki() {
             [tpl]="${init_repo}/tpl"
         )                                                                       &&
 
-        init_dokuwiki="${conf_def_[root]}/${conf_def_[name]}/${user_name}"      &&
+        init_dokuwiki="${conf_def_[root]}/${conf_def_[name]}"                   &&
         init_dokuwiki_=(
             [dokuwiki]="${init_dokuwiki}"
             [plugins]="${init_dokuwiki}/lib/plugins"
@@ -135,7 +134,7 @@ schulwiki() {
 
         init_server_=(
             [port]="${conf_def_[port]}"
-            [conf]="${conf_def_[server]}/conf.d/${conf_def_[name]}_${user_name}.conf"
+            [conf]="${conf_def_[server]}/conf.d/${conf_def_[name]}.conf"
             [nginx]="${conf_def_[server]}/nginx.conf"
             [owner]="${conf_def_[owner]}"
             [group]="${conf_def_[group]}"
@@ -209,12 +208,51 @@ schulwiki() {
     }
 
     opt_help() {
-        printf "%s\n\n" "${conf_usage}" "COMMAND"                               &&
-        printf "%s\n" "${!conf_opt_[@]}"                                        |
-        sort                                                                    |
-        while IFS= read -r line ; do
-            printf "    %s %s\n\n"  "${line}" "${conf_opt_[${line}]}"
-        done
+        printf "%s\n" "# schulwiki.sh"
+        printf "${nt}%s"                                                                    \
+            "Bash4+ wrapper skript for customized dokuwiki server in school environment"    \
+                                                                                &&
+        printf "\n\n"                                                           &&
+        printf "%s\n" '## USAGE'                                                &&
+        printf "%s\n" "${conf_usage}"                                           &&
+        printf "\n"                                                             &&
+        printf "%s\n\n" '## COMMAND'                                            &&
+        {
+            printf "%s\n" "${!conf_opt_[@]}"                                    |
+            sort                                                                |
+            while IFS= read -r line ; do
+                printf "    %s %s\n\n"  "${line}" "${conf_opt_[${line}]}"
+            done
+        }                                                                       &&
+
+        printf "%s\n" "## INFO"                                                 &&
+        printf "${nt}%s"                                                                    \
+            'Tested on LMDE4 (Debian Buster).'                                              \
+            ''                                                                              \
+            'Before installing please check/adapt `config` at the top of `schulwiki.sh`'    \
+                                                                                &&
+        printf "\n\n"                                                           &&
+
+        printf "%s\n" "## INSTALLATION"                                         &&
+        printf "${nt}%s"                                                        \
+            'tmpdir=$( mktemp -d ) && cd $tmpdir'                               \
+            'git clone https://github.com/grg8/schulwiki schulwiki'             \
+            'sudo cp schulwiki/schulwiki.sh /usr/local/bin/schulwiki'           \
+            'schulwiki help                # shows this document'               \
+            'sudo schulwiki pkg'                                                \
+            'sudo schulwiki repo'                                               \
+            'sudo schulwiki server [PORT]  # default PORT is `80`'              \
+            'sudo schulwiki php'                                                \
+            'sudo schulwiki sync'                                               \
+            'sudo schulwiki reload'                                             \
+            'sudo schulwiki index'                                              \
+            'schulwiki info'                                                    \
+            'schulwiki db'                                                      \
+                                                                                &&
+        printf "\n\n"                                                           &&
+
+        : || { err "error at help" ; return 1 ; }
+
     }
 
     opt_repo() {
@@ -360,10 +398,15 @@ schulwiki() {
     opt_php() {
         #~ upload_max_filesize = 15M
         #~ post_max_size = 15M
-        sed                                                                     \
+        cp "${init_php_[ini]}" "${init_php_[ini]}.${init_date}"                 &&
+        sed -i                                                                  \
             -e "s/^upload_max_filesize = .*/upload_max_filesize = ${init_php_[maxsize]}/"         \
             -e "s/^post_max_size = .*/post_max_size = ${init_php_[maxsize]}/"                     \
-            "${init_php_[ini]}"
+            "${init_php_[ini]}"                                                 &&
+        printf "%s\n" "New file written: ${init_php_[ini]}" \
+            "Original file copied to: ${init_php_[ini]}.${init_date}"           &&
+
+        : || { err "error at creating php config." ; return 1 ; }
 
     }
 
@@ -372,13 +415,6 @@ schulwiki() {
         apt upgrade                                                             &&
         apt-get install "${init_apt__[@]}"                                      &&
         : || { err "could not install prerequisites." ; return 1 ; }
-    }
-
-    opt_list() {
-        for i in $( ls -A "${init_repo}" ) ; do
-            printf "%s\n" "${i}"
-        done                                                                    &&
-        : || { err "error at list." ; return 1 ; }
     }
 
     err() {
@@ -447,7 +483,6 @@ schulwiki() {
 
         # scalar
         declare -x  user_func=                                                  &&
-        declare -x  user_name=                                                  &&
         declare -x  user_opt=                                                   &&
 
         : || { err "error at cariable declaration." ; return 1 ; }
@@ -482,18 +517,6 @@ schulwiki() {
     shift                                                                       &&
     : || { err "no such option: ${1}" ; return 1 ; }
 
-    # check if usage is valid
-    if [[ "${user_opt}" =~ help|list|pkg|php ]] ; then
-        :
-    else
-        [[ "${1}" =~ ${vo} ]]                                                   &&
-        user_name="${1}"                                                        &&
-        shift                                                                   &&
-        : || { err "invalid or missing NAME: ${1}" ; return 1 ; }
-
-    fi                                                                          &&
-    : || { err "mad usage" ; return 1 ; }
-
     # set user function to run
     user_func="opt_${user_opt}"                                                 &&
 
@@ -503,7 +526,7 @@ schulwiki() {
     ### conditional init
 
     if [[ "${user_opt}" =~ server|reload|index|info|php ]] ; then
-        # @todo: write out to phprc at /opt/schulwiki; do the maxsize in php ini
+        # @todo: write out to phprc at /opt/schulwiki
         init_php_=(
             [service]="$(
                     systemctl list-unit-files   |
@@ -584,9 +607,6 @@ schulwiki() {
             sed -n "s/^${s}*listen${s}\+\(${d}\+\)[\;]/\1/p" "${init_server_[conf]}"
         )"
     fi                                                                          &&
-
-    #~ [[ ${#@} -eq 0 ]]                                                           &&
-    #~ : || { err "to many arguments: ${1}" ; return 1 ; }
 
     # run
     ${user_func} "${@}"                                                         &&
