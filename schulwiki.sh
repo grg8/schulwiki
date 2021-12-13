@@ -208,14 +208,23 @@ schulwiki() {
     }
 
     opt_help() {
-        printf "%s\n" "# schulwiki.sh"
-        printf "${nt}%s"                                                                    \
-            "Bash4+ wrapper skript for customized dokuwiki server in school environment"    \
+        printf "%s\n\n" "# schulwiki.sh"                                        &&
+        printf " %s\n"                                                          \
+            "Bash4+ wrapper skript for customized dokuwiki server in school environment" \
                                                                                 &&
-        printf "\n\n"                                                           &&
+        printf "\n"                                                             &&
+
+        printf "%s\n\n" "## INFO"                                               &&
+        printf " %s\n"                                                          \
+            'Tested on LMDE4 (Debian Buster).'                                  \
+            'Before installing please check/adapt `config` at the top of `schulwiki.sh`.' \
+                                                                                &&
+        printf "\n"                                                             &&
+
         printf "%s\n" '## USAGE'                                                &&
         printf "%s\n" "${conf_usage}"                                           &&
         printf "\n"                                                             &&
+
         printf "%s\n\n" '## COMMAND'                                            &&
         {
             printf "%s\n" "${!conf_opt_[@]}"                                    |
@@ -225,13 +234,13 @@ schulwiki() {
             done
         }                                                                       &&
 
-        printf "%s\n" "## INFO"                                                 &&
-        printf "${nt}%s"                                                                    \
-            'Tested on LMDE4 (Debian Buster).'                                              \
-            ''                                                                              \
-            'Before installing please check/adapt `config` at the top of `schulwiki.sh`'    \
+        printf "%s\n\n" "## CREDENTIALS"                                        &&
+        printf " %s\n"                                                          \
+            'User    | Password'                                                \
+            '------- | -------------'                                           \
+            '`admin` | `admin`'                                                 \
                                                                                 &&
-        printf "\n\n"                                                           &&
+        printf "\n"                                                             &&
 
         printf "%s\n" "## INSTALLATION"                                         &&
         printf "${nt}%s"                                                        \

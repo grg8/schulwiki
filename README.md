@@ -1,66 +1,67 @@
-# schulwiki
+# schulwiki.sh
 
-**Under construction!**
+ Bash4+ wrapper skript for customized dokuwiki server in school environment
 
-Customized dokuwiki server including (adapted) plugins, bootstrap3 template and a skeleton for keeping inventory and documentation inside a school environment.
+## INFO
 
-Tested on current LMDE4.
+ Tested on LMDE4 (Debian Buster).
+ Before installing please check/adapt `config` at the top of `schulwiki.sh`.
 
-## installation
+## USAGE
 
+    schulwiki COMMAND [ARG]
+
+## COMMAND
+
+    db [TABLE]
+        Show information about a struct db.
+
+    help 
+        Show this help.
+
+    index 
+        Like 'reload' but also refresh wiki search index.
+
+    info 
+        Show information about a wiki.
+
+    php 
+        Write php.ini for max upload size.
+
+    pkg 
+        Install nginx, php and stuff for Debian distro.
+
+    reload 
+        Reload wiki and restart services.
+
+    repo 
+        Create the repository for a wiki to sync from.
+
+    server PORT
+        Create http server configuration if not existing.
+
+    sync 
+        Sync from repo to running wiki.
+
+## CREDENTIALS
+
+ User    | Password
+ ------- | -------------
+ `admin` | `admin`
+
+## INSTALLATION
+
+    tmpdir=$( mktemp -d ) && cd $tmpdir
+    git clone https://github.com/grg8/schulwiki schulwiki
+    sudo cp schulwiki/schulwiki.sh /usr/local/bin/schulwiki
+    schulwiki help                # shows this document
     sudo schulwiki pkg
-    sudo schulwiki repo     foo
-    sudo schulwiki server   foo   12345
-    sudo schulwiki sync     foo
-    sudo schulwiki reload   foo
-    sudo schulwiki index    foo
-    sudo schulwiki info     foo
+    sudo schulwiki repo
+    sudo schulwiki server [PORT]  # default PORT is `80`
+    sudo schulwiki php
+    sudo schulwiki sync
+    sudo schulwiki reload
+    sudo schulwiki index
+    schulwiki info
+    schulwiki db
 
-## credentials
-
-User    | Password
-------- | -------------
-`admin` | `admin`
-
-## help
-
-    $ schulwiki help
-    USAGE
-        schulwiki COMMAND
-        schulwiki COMMAND NAME
-        schulwiki COMMAND NAME ARG
-
-    COMMAND
-
-        db NAME [TABLE]
-            Show information about a struct db.
-
-        help
-            Show this help.
-
-        index NAME
-            Like 'reload' but also refresh wiki search index.
-
-        info NAME
-            Show information about a wiki.
-
-        list
-            List all existing wikis.
-
-        php
-            Print php.ini for max upload size to STDOUT.
-
-        pkg
-            Install nginx, php and php stuff for Debian distro.
-
-        reload NAME
-            Reload wiki and restart services.
-
-        repo NAME
-            Create the repository for a wiki to sync from.
-
-        server NAME PORT
-            Create http server configuration if not existing.
-
-        sync NAME
-            Sync from repo to running wiki.
