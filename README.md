@@ -37,7 +37,7 @@
     repo 
         Create the repository for a wiki to sync from.
 
-    server PORT
+    server 
         Create http server configuration if not existing.
 
     sync 
@@ -57,7 +57,7 @@
     schulwiki help                # shows this document
     sudo schulwiki pkg
     sudo schulwiki repo
-    sudo schulwiki server [PORT]  # default PORT is `80`
+    sudo schulwiki server
     sudo schulwiki php
     sudo schulwiki sync
     sudo schulwiki reload
