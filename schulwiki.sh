@@ -32,8 +32,8 @@ schulwiki() {
 
         # default config
         conf_def_=(
-            [name]="schulwiki-8090"
-            [port]=8090
+            [name]="schulwiki"
+            [port]=80
             [root]="/var/www/html"
             [repo]="/opt"
             [server]="/etc/nginx"
