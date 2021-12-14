@@ -1,8 +1,8 @@
 #!/bin/bash
 #---
 # file      : schulwiki.sh
-# date      : 2021-12-13
-# version   : 0.0.13
+# date      : 2021-12-14
+# version   : 0.0.14
 # info      : customized dokuwiki wrapper script
 #---
 
@@ -23,7 +23,7 @@ schulwiki() {
             [php]="${ntt}"'Write php.ini for max upload size.'
             [pkg]="${ntt}"'Install nginx, php and stuff for Debian distro.'
             [repo]=''"${ntt}"'Create the repository for a wiki to sync from.'
-            [server]='PORT'"${ntt}"'Create http server configuration if not existing.'
+            [server]=''"${ntt}"'Create http server configuration if not existing.'
             [sync]=''"${ntt}"'Sync from repo to running wiki.'
         )                                                                       &&
 
@@ -32,8 +32,8 @@ schulwiki() {
 
         # default config
         conf_def_=(
-            [name]="schulwiki"
-            [port]=80
+            [name]="schulwiki-8090"
+            [port]=8090
             [root]="/var/www/html"
             [repo]="/opt"
             [server]="/etc/nginx"
@@ -134,7 +134,9 @@ schulwiki() {
 
         init_server_=(
             [port]="${conf_def_[port]}"
-            [conf]="${conf_def_[server]}/conf.d/${conf_def_[name]}.conf"
+            [conf]="${conf_def_[server]}/sites-available/${conf_def_[name]}.conf"
+            [conf_link]="../sites-available/${conf_def_[name]}.conf"
+            [conf_enabled]="${conf_def_[server]}/sites-enabled/${conf_def_[name]}.conf"
             [nginx]="${conf_def_[server]}/nginx.conf"
             [owner]="${conf_def_[owner]}"
             [group]="${conf_def_[group]}"
@@ -399,24 +401,46 @@ schulwiki() {
     }
 
     opt_server() {
-        [[ -e "${init_server_[conf]}" ]]                                        ||
-            printf "%s\n" "${init_nginx_server__[@]}" > "${init_server_[conf]}" ||
-        { err "error at server config." ; return 1 ; }
+
+        nginx -T  2>&1                                                          |
+        while IFS= read -r line ; do
+            [[ "${line}" =~ ^${s}**listen${s}+(${d}+)${s}*[\;] ]] &&
+            if [[ "${BASH_REMATCH[1]}" == "${init_server_[port]}" ]] ; then
+                exit 1
+            fi || :
+        done                                                                    &&
+        : || { err "port ${init_server_[port]} already used" ; return 1 ; }
+
+        [[ ! -e "${init_server_[conf]}" ]]                                      &&
+        : || { err "Config ${init_server_[conf]} already existing." ; return 1 ; }
+
+        printf "%s\n" "${init_nginx_server__[@]}" > "${init_server_[conf]}"     &&
+        ln -s "${init_server_[conf_link]}" "${init_server_[conf_enabled]}"      &&
+        : || { err "error at server config." ; return 1 ; }
+
     }
 
     opt_php() {
-        #~ upload_max_filesize = 15M
-        #~ post_max_size = 15M
-        cp "${init_php_[ini]}" "${init_php_[ini]}.${init_date}"                 &&
-        sed -i                                                                  \
-            -e "s/^upload_max_filesize = .*/upload_max_filesize = ${init_php_[maxsize]}/"         \
-            -e "s/^post_max_size = .*/post_max_size = ${init_php_[maxsize]}/"                     \
-            "${init_php_[ini]}"                                                 &&
-        printf "%s\n" "New file written: ${init_php_[ini]}" \
-            "Original file copied to: ${init_php_[ini]}.${init_date}"           &&
 
-        : || { err "error at creating php config." ; return 1 ; }
+        if {
+            grep -q ^"${s}*upload_max_filesize${s}*=${s}*${init_php_[maxsize]}${s}*"$ \
+                "${init_php_[ini]}"                                             &&
+            grep -q ^"${s}*post_max_size${s}*=${s}*${init_php_[maxsize]}${s}*"$ \
+                "${init_php_[ini]}"                                             &&
+            err "${init_php_[ini]} already up to date"
+        } ; then
+            :
+        else
+            cp "${init_php_[ini]}" "${init_php_[ini]}.${init_date}"                 &&
+            sed -i                                                                  \
+                -e "s/^upload_max_filesize = .*/upload_max_filesize = ${init_php_[maxsize]}/"         \
+                -e "s/^post_max_size = .*/post_max_size = ${init_php_[maxsize]}/"                     \
+                "${init_php_[ini]}"                                                 &&
+            printf "%s\n" "New file written: ${init_php_[ini]}" \
+                "Original file copied to: ${init_php_[ini]}.${init_date}"           &&
 
+            : || { err "error at creating php config." ; return 1 ; }
+        fi
     }
 
     opt_pkg() {
@@ -430,7 +454,7 @@ schulwiki() {
         set -- "${@:-unknown error}"
         {
             printf "${0}: aborted: %s\n" "${@}"
-            printf "%s\n" "Please try \`schulwiki help' for usage."
+            printf "%s\n" "Please try \`schulwiki help\` for usage."
         } 1>&2
         return 1
     }
@@ -535,7 +559,7 @@ schulwiki() {
     ### conditional init
 
     if [[ "${user_opt}" =~ server|reload|index|info|php ]] ; then
-        # @todo: write out to phprc at /opt/schulwiki
+        # @todo: write out to e.g. phprc at /opt/schulwiki
         init_php_=(
             [service]="$(
                     systemctl list-unit-files   |
@@ -553,16 +577,14 @@ schulwiki() {
     fi                                                                          &&
 
     if [[ "${user_opt}" == server ]] ; then
-        port="${1:-${init_server_[port]}}"                                      &&
-        { [[ ${#@} -eq 0 ]] || shift ; }                                        &&
-        [[ "${port}" =~ ^[[:digit:]]+$ ]]                                       &&
-        [[ "${port}" -le 65535  ]]                                              &&
-        : || { err "invalid port: ${port}" ; return 1 ; }
+        [[ "${init_server_[port]}" =~ ^[[:digit:]]+$ ]]                         &&
+        [[ "${init_server_[port]}" -le 65535  ]]                                &&
+        : || { err "invalid port: ${init_server_[port]}" ; return 1 ; }
 
         init_nginx_server__=(
             'server {'
             ''
-            ' listen '"${port}"';'
+            ' listen '"${init_server_[port]}"';'
             ' server_name 127.0.0.1;'
             ' root '"${init_dokuwiki}"';'
             ''
@@ -609,12 +631,14 @@ schulwiki() {
             '}'
         )                                                                       &&
         : || { err "error at init server." ; return 1 ; }
-    fi                                                                          &&
 
-    if [[ "${user_opt}" == info ]] ; then
+    elif [[ "${user_opt}" == info ]] ; then
         init_server_[port]="$(
             sed -n "s/^${s}*listen${s}\+\(${d}\+\)[\;]/\1/p" "${init_server_[conf]}"
         )"
+
+    else
+        :
     fi                                                                          &&
 
     # run
