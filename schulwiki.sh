@@ -66,6 +66,7 @@ schulwiki() {
             [smtp]='https://github.com/splitbrain/dokuwiki-plugin-smtp.git'
             [sqlite]='https://github.com/cosmocode/sqlite.git'
             [struct]='https://github.com/cosmocode/dokuwiki-plugin-struct.git'
+            [structjoin]='https://github.com/gkrid/dokuwiki-plugin-structjoin.git'
             [tablewidth]='https://github.com/dwp-forge/tablewidth.git'
             [upgrade]='https://github.com/splitbrain/dokuwiki-plugin-upgrade.git'
             [vshare]='https://github.com/splitbrain/dokuwiki-plugin-vshare.git'
@@ -456,7 +457,6 @@ schulwiki() {
             printf "${0}: aborted: %s\n" "${@}"
             printf "%s\n" "Please try \`schulwiki help\` for usage."
         } 1>&2
-        return 1
     }
 
     ### declare
