@@ -1,8 +1,8 @@
 #!/bin/bash
 #---
 # file      : schulwiki.sh
-# date      : 2021-12-14
-# version   : 0.0.14
+# date      : 2022-03-04
+# version   : 0.0.15
 # info      : customized dokuwiki wrapper script
 #---
 
@@ -32,8 +32,8 @@ schulwiki() {
 
         # default config
         conf_def_=(
-            [name]="schulwiki"
-            [port]=80
+            [name]="schulwiki_20200"
+            [port]=20200
             [root]="/var/www/html"
             [repo]="/opt"
             [server]="/etc/nginx"
@@ -62,6 +62,7 @@ schulwiki() {
             [move]='https://github.com/michitux/dokuwiki-plugin-move.git'
             [newpagetemplate]='https://github.com/turnermm/newpagetemplate.git'
             [nosidebar]='https://github.com/lupo49/dokuwiki-plugin-nosidebar.git'
+            [pagenav]='https://github.com/cosmocode/pagenav.git'
             [searchindex]='https://github.com/splitbrain/dokuwiki-plugin-searchindex.git'
             [smtp]='https://github.com/splitbrain/dokuwiki-plugin-smtp.git'
             [sqlite]='https://github.com/cosmocode/sqlite.git'
@@ -587,6 +588,7 @@ schulwiki() {
             ' listen '"${init_server_[port]}"';'
             ' server_name 127.0.0.1;'
             ' root '"${init_dokuwiki}"';'
+            ' client_max_body_size 0;'
             ''
             ' access_log /var/log/nginx/dokuwiki.access.log;'
             ' error_log /var/log/nginx/dokuwiki.error.log;'
